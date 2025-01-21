@@ -35,7 +35,12 @@ func main() {
 	check_error(err)
 
 	var mb max_balance
+	interests := 0.0
 	for _, record := range records {
+		if record[3] == "DEPOSIT INTEREST" {
+			income, _ := strconv.ParseFloat(record[4], 32)
+			interests += income
+		}
 		balance, err := strconv.ParseFloat(record[5], 32)
 		if err != nil {
 		}
@@ -44,6 +49,7 @@ func main() {
 			mb.when = record[0]
 		}
 	}
-	fmt.Printf("%s: %.2f\n", mb.when, mb.balance)
+	fmt.Printf("Max Balance -> %s: %.2f\n", mb.when, mb.balance)
+	fmt.Printf("Interests Earned -> %.2f\n", interests)
 
 }
